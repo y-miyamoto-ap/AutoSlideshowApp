@@ -80,13 +80,16 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
+        stopTimer()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
         if (cursor != null) {
             cursor!!.close()
             cursor = null
         }
-        if (timer != null) {
-            stopTimer()
-        }
+        stopTimer()
     }
 
     override fun onRequestPermissionsResult(
@@ -147,10 +150,12 @@ class MainActivity : AppCompatActivity() {
         showImage()
     }
     private fun stopTimer() {
-        timer!!.cancel()
-        timer = null
-        binding.autoButton.text="再生"
-        binding.prevButton.isEnabled=true
-        binding.nextButton.isEnabled=true
+        if (timer != null) {
+            timer!!.cancel()
+            timer = null
+            binding.autoButton.text = "再生"
+            binding.prevButton.isEnabled = true
+            binding.nextButton.isEnabled = true
+        }
     }
 }
